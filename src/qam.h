@@ -1,23 +1,21 @@
 
 #include <vector>
+#include <complex>
 
-class Waveform
+
+class Signal
 {
     private:
         // Private variables
         std::string name;
-        int freq;
-        std::vector<float> points;
+        std::vector<std::complex<double>> signal_points;
         
     public:
         // Constructor
-        Waveform (std::string name, int frequency, std::vector<float> points)
+        Signal(std::string name)
         {
             name = name;
-            freq = frequency;
-            points = points;
         }
-
 
         // Public functions
         std::string getName()
@@ -25,14 +23,17 @@ class Waveform
             return name;
         }
 
-        int getFreq()
+        std::vector<std::complex<double>> getSignalPoints()
         {
-            return freq;
+            return signal_points;
         }
 
-        std::vector<float> getPoints()
+        void setSignalPoints(std::vector<std::complex<double>> points)
         {
-            return points;
+            for (auto point = points.begin(); point != points.end(); ++point)
+            {
+                signal_points.push_back(*point);
+            }
         }
 
 

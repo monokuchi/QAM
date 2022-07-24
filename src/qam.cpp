@@ -1,22 +1,28 @@
 
 #include <iostream>
+#include <random>
 #include "qam.h"
 
 int main()
 {
-    // Set the Waveform class variables
-    std::string name = "Wave_1"; 
-    int freq = 5001;
-    std::vector<float> points = {23, .42, 232.2, 2.4};
+    // Set the Signal class variables
+    std::string name = "Input Signal"; 
+    std::vector<std::complex<double>> points;
+    std::complex<double> complex_point;
+    while (std::cin >> complex_point)
+    {
+        points.push_back(complex_point);
+    }
 
-    // Make the Waveform object
-    Waveform wave(name, freq, points);
+    // Make the Signal object
+    Signal signal(name);
 
-    std::cout<<"Waveform Name: " + wave.getName()<<std::endl;
-    std::cout<<"Waveform Frequency: " + wave.getFreq()<<std::endl;
-    std::cout<<"Waveform Points: ";
-    // Print out all the points that make up the wave
-    for (auto i = wave.getPoints().begin(); i != wave.getPoints().end(); ++i)
+    std::cout<<"Signal Name: " + signal.getName()<<std::endl;
+
+    signal.setSignalPoints(points);
+    std::cout<<"Signal Points: ";
+    // Print out all the points that make up the signal
+    for (auto i = signal.getSignalPoints().begin(); i != signal.getSignalPoints().end(); ++i)
     {
         std::cout<<*i<<" ";
     }
