@@ -12,7 +12,7 @@ class Signal
 {
     private:
         // Private variables
-        std::string name;
+        std::string name; // Name of the signal
         std::vector<int> bit_vector; // Bit vector that makes up the signal
         int num_bits; // Total number of bits we want to send
         int modulation_order; // Modulation order which is the number of symbols on constellation diagram
@@ -38,7 +38,7 @@ class Signal
         {
             return bit_vector;
         }
-        
+
         void generateBits()
         {
             std::random_device seed;
@@ -49,9 +49,14 @@ class Signal
             }
         }
 
-
-
 };
+
+
+void modulateQAM()
+{
+    std::cout<<"Modulating Signal..."<<std::endl;
+
+}
 
 
 #endif // QAM_H

@@ -26,5 +26,10 @@ int main()
         std::cout<<*i;
     }
     std::cout<<"\n";
+
+
+    // Modulate the signal using QAM
+    modulateQAM();
+    
 }
 
