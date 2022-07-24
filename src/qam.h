@@ -1,6 +1,11 @@
 
+#ifndef QAM_H
+#define QAM_H
+
 #include <vector>
+#include <random>
 #include <complex>
+// #include <cmath>
 
 
 class Signal
@@ -8,13 +13,19 @@ class Signal
     private:
         // Private variables
         std::string name;
-        std::vector<std::complex<double>> signal_points;
+        std::vector<int> bit_vector; // Bit vector that makes up the signal
+        int num_bits; // Total number of bits we want to send
+        int modulation_order; // Modulation order which is the number of symbols on constellation diagram
+        int symbol_bits; // Number of bits for each symbol
         
     public:
         // Constructor
-        Signal(std::string name)
+        Signal(std::string Name, int NumBits, int ModOrder)
         {
-            name = name;
+            name = Name;
+            num_bits = NumBits;
+            modulation_order = ModOrder;
+            symbol_bits = log2(modulation_order);
         }
 
         // Public functions
@@ -23,18 +34,24 @@ class Signal
             return name;
         }
 
-        std::vector<std::complex<double>> getSignalPoints()
+        std::vector<int> getBitVector()
         {
-            return signal_points;
+            return bit_vector;
         }
-
-        void setSignalPoints(std::vector<std::complex<double>> points)
+        
+        void generateBits()
         {
-            for (auto point = points.begin(); point != points.end(); ++point)
+            std::random_device seed;
+            std::uniform_int_distribution<int> uniform(0, 1); // Generates random 0 or 1
+            for (int i=0; i<num_bits; i++)
             {
-                signal_points.push_back(*point);
+                bit_vector.push_back(uniform(seed));
             }
         }
 
 
+
 };
+
+
+#endif // QAM_H

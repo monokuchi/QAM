@@ -1,34 +1,30 @@
 
 #include <iostream>
-#include <random>
 #include "qam.h"
 
 int main()
 {
     // Set the Signal class variables
     std::string name = "Input Signal"; 
-    std::vector<std::complex<double>> points;
-    std::complex<double> complex_point;
-    while (std::cin >> complex_point)
-    {
-        points.push_back(complex_point);
-    }
+    int num_bits = 16;
+    int mod_order = 4;
 
     // Make the Signal object
-    Signal signal(name);
+    Signal signal(name, num_bits, mod_order);
 
-    std::cout<<"Signal Name: " + signal.getName()<<std::endl;
+    // Print the signal's name
+    std::cout<<"Signal Name: "<<signal.getName()<<std::endl;
 
-    signal.setSignalPoints(points);
-    std::cout<<"Signal Points: ";
-    // Print out all the points that make up the signal
-    for (auto i = signal.getSignalPoints().begin(); i != signal.getSignalPoints().end(); ++i)
+    // Generate our bit vector
+    signal.generateBits();
+    std::vector<int> bit_vector = signal.getBitVector();
+    // Print out all the bits that make up the signal
+    std::cout<<"Bit Vector: ";
+    for (auto i = bit_vector.begin(); i != bit_vector.end(); ++i)
     {
-        std::cout<<*i<<" ";
+        if (i != bit_vector.begin()) std::cout<<", ";
+        std::cout<<*i;
     }
-
+    std::cout<<"\n";
 }
-
-
-
 

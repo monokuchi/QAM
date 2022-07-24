@@ -1,3 +1,6 @@
 
 # Visual Studio
 .vscode/
+
+# QAM executable
+src/qam
