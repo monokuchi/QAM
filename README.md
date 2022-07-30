@@ -1,6 +1,6 @@
 # ***QAM***
 
-## *Implementation of an digital QAM modulation scheme*
+## *Implementation of an digital QAM modulation scheme :signal_strength:*
 
 ### Scenario
 ```
@@ -18,12 +18,32 @@
 ```
 
 ### Pictures
-- [ ] :smile_cat:
+```
+mermaid
+flowchart LR
+    bit(Input Bitstream)
+    bit_A(First Half of Bitstream)
+    bit_B(Second Half of Bitstream)
+    bit --> bit_A & bit_B
+    bit_A --> sig_I
+    bit_B --> sig_Q
 
-```mermaid
-graph TD;
-    A-->B;
-    A-->C;
-    B-->D;
-    C-->D;
+    subgraph QAM Modulator
+        direction TB
+        sig_I(In-Phase)
+        sig_Q(Quadrature)
+        quadrature[90 Degrees Phase Shift]
+        mixer_1(((Mixer)))
+        mixer_2(((Mixer)))
+        carrier((Carrier)) 
+        adder{Adder}
+    end
+
+    sig_I --> mixer_1
+    sig_Q --> mixer_2
+    quadrature --> mixer_2
+    carrier --> mixer_1 & quadrature
+    mixer_1 & mixer_2 --> adder
+    
+    adder --> result(Complex Waveform)
 ```
