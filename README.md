@@ -17,9 +17,8 @@
 2. ./runQAM.sh
 ```
 
-### Pictures
-```
-mermaid
+### Block Diagram
+```mermaid
 flowchart LR
     bit(Input Bitstream)
     bit_A(First Half of Bitstream)
