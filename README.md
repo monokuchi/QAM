@@ -11,12 +11,6 @@
 5. Add the resulting complex signals together at the end, this is your resulting QAM modulated signal
 ```
 
-### Build Instructions
-```
-1. cd ~/git/QAM/scripts
-2. ./runQAM.sh
-```
-
 ### Block Diagram
 ```mermaid
 flowchart LR
@@ -29,9 +23,9 @@ flowchart LR
 
     subgraph QAM Modulator
         direction TB
-        sig_I(In-Phase)
-        sig_Q(Quadrature)
-        quadrature[90 Degrees Phase Shift]
+        sig_I(In-Phase Signal)
+        sig_Q(Quadrature Signal)
+        quadrature{{90 Degrees Phase Shift}}
         mixer_1(((Mixer)))
         mixer_2(((Mixer)))
         carrier((Carrier)) 
@@ -44,5 +38,11 @@ flowchart LR
     carrier --> mixer_1 & quadrature
     mixer_1 & mixer_2 --> adder
     
-    adder --> result(Complex Waveform)
+    adder --> result(RF Out)
+```
+
+### Build and Run Instructions
+```
+1. cd ~/git/QAM/scripts
+2. ./runQAM.sh
 ```
