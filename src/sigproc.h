@@ -1,6 +1,6 @@
 
-#ifndef SAMPLER_H
-#define SAMPLER_H
+#ifndef SIGPROC_H
+#define SIGPROC_H
 
 #include <vector>
 #include <math.h>
@@ -9,34 +9,47 @@
 
 std::vector<float> rootRaisedCosine(float B, int T, int OversampleRate)
 {
+    std::vector<float> filter_coeff;
+
     int filter_order = T*OversampleRate;
-    std::vector<float> filter_coeff(filter_order+1, 0.0);
     if (filter_order%2 != 0)
     {
         std::__throw_invalid_argument("Filter Order must be even!");
     }
 
     // Make the root raised cosine filter
-    for (float t=-T/2; t<T/2; t+=(1/OversampleRate))
+    for (int t=-(T*OversampleRate)/2; t<=(T*OversampleRate)/2; t++)
     {
-        if (t == 0)
+        float new_t = t*(1.0/OversampleRate);
+
+        if (new_t == 0.0)
         {
             // Midpoint (t=0)
-            filter_coeff.push_back(1 + (B * ((4/M_PI) - 1)));
+            filter_coeff.push_back(1.0 + (B * ((4.0/M_PI) - 1.0)));
         }
-        else if (t == 1/(4*B) || t == -1/(4*B))
+        else if (new_t == 1.0/(4.0*B) || new_t == -1.0/(4.0*B))
         {
             // Zero-Crossings (t=+-T/4B)
-            filter_coeff.push_back((B/(sqrt(2))) * (((1+(2/M_PI))*sin(M_PI/(4*B))) + ((1-(2/M_1_PI))*cos(M_PI/(4*B)))));
+            filter_coeff.push_back((B/(sqrt(2))) * (((1.0+(2.0/M_PI))*sin(M_PI/(4.0*B))) + ((1.0-(2.0/M_1_PI))*cos(M_PI/(4.0*B)))));
         }
         else
         {
             // Other Points
-            filter_coeff.push_back((sin((M_PI*t)*(1-B)) + ((4*B*t)*cos((M_PI*t)*(1+B)))) / ((M_PI*t) * (1-(pow(4*B*t, 2)))));
+            filter_coeff.push_back((sin((M_PI*new_t)*(1.0-B)) + ((4.0*B*new_t)*cos((M_PI*new_t)*(1.0+B)))) / ((M_PI*new_t) * (1.0-(pow(4.0*B*new_t, 2.0)))));
         }
     }
 
     return filter_coeff;
+}
+
+
+template <typename T>
+std::vector<T> convolve(std::vector<T> signal_1, std::vector<T> signal_2)
+{
+    std::vector<T> convolved_signal;
+    
+
+    return convolved_signal;
 }
 
 
@@ -57,12 +70,13 @@ std::vector<T> upsample(std::vector<T> signal, float N)
 template <typename T>
 std::vector<T> interpolate(std::vector<T> signal)
 {
-    std::vector<T> interpolated_signal;
-    std::vector<T> rrc = rootRaisedCosine(4, 2, 6);
-    interpolated_signal = rrc;
+    std::vector<float> rrc = rootRaisedCosine(2, 2, 8);
+
+    // Lowpass filter our signal with the root raised cosine filter
+    std::vector<T> interpolated_signal = convolve(signal, rrc);
 
     return interpolated_signal;
 }
 
 
-#endif // SAMPLER_H
+#endif // SIGPROC_H

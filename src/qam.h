@@ -111,7 +111,7 @@ std::vector<float> modulateQAM(std::vector<int> &data, std::vector<float> &I_car
     }
 
     // Upsample and then interpolate our I and Q signals to match our carrier vector's size
-    float upsample_rate = 4;
+    float upsample_rate = 2;
     I_signal = interpolate(upsample(I_signal, upsample_rate));
     Q_signal = interpolate(upsample(Q_signal, upsample_rate));
 
