@@ -44,10 +44,21 @@ std::vector<float> rootRaisedCosine(float B, int T, int OversampleRate)
 
 
 template <typename T>
-std::vector<T> convolve(std::vector<T> signal_1, std::vector<T> signal_2)
+std::vector<T> convolve(std::vector<T> &signal_1, std::vector<T> &signal_2)
 {
-    std::vector<T> convolved_signal;
-    
+    int j = signal_1.size();
+    int m = signal_2.size();
+    std::vector<T> convolved_signal(j+m-1);
+
+    for (int n=0; n<(j+m-1); n++)
+    {
+        float sum = 0.0;
+        for(int k=std::max(1, n+1-m); k<std::min(n, j); k++)
+        {
+            sum += signal_1[k] * signal_2[n-k+1];
+        }
+        convolved_signal[n] = sum;
+    }
 
     return convolved_signal;
 }
