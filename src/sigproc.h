@@ -44,20 +44,23 @@ std::vector<float> rootRaisedCosine(float B, int T, int OversampleRate)
 
 
 template <typename T>
-std::vector<T> convolve(std::vector<T> &signal_1, std::vector<T> &signal_2)
+std::vector<T> convolve(std::vector<T> const &signal_1, std::vector<T> const &signal_2)
 {
-    int j = signal_1.size();
-    int m = signal_2.size();
-    std::vector<T> convolved_signal(j+m-1);
+    int l1 = signal_1.size();
+    int l2 = signal_2.size();
+    int N = l1 + l2 - 1;
+    std::vector<T> convolved_signal(l1+l2-1);
 
-    for (int n=0; n<(j+m-1); n++)
+    for (int n=0; n<N; n++)
     {
-        float sum = 0.0;
-        for(int k=std::max(1, n+1-m); k<std::min(n, j); k++)
+        convolved_signal[n] = 0.0;
+        for(int k=0; k<=std::min(std::max(l1, l2), n); k++)
         {
-            sum += signal_1[k] * signal_2[n-k+1];
+            if ((k < l1) && (n-k < l2))
+            {
+                convolved_signal[n] += signal_1[k] * signal_2[n-k];
+            }
         }
-        convolved_signal[n] = sum;
     }
 
     return convolved_signal;
@@ -81,7 +84,7 @@ std::vector<T> upsample(std::vector<T> signal, float N)
 template <typename T>
 std::vector<T> interpolate(std::vector<T> signal)
 {
-    std::vector<float> rrc = rootRaisedCosine(2, 2, 8);
+    std::vector<float> rrc = rootRaisedCosine(2, 2, 4);
 
     // Lowpass filter our signal with the root raised cosine filter
     std::vector<T> interpolated_signal = convolve(signal, rrc);
