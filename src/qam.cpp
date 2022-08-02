@@ -25,8 +25,8 @@ int main()
     printOutVector(bit_vector, "Bit Vector");
 
     // Generate our carrier signals
-    std::vector<float> I_carrier_signal = generateSin(freq, 40, sample_rate);
-    std::vector<float> Q_carrier_signal = generateCos(freq, 40, sample_rate);
+    std::vector<float> I_carrier_signal = generateSin(freq, 500, sample_rate);
+    std::vector<float> Q_carrier_signal = generateCos(freq, 500, sample_rate);
 
     // Modulate the signal using QAM
     std::vector<float> output = modulateQAM(bit_vector, I_carrier_signal, Q_carrier_signal);

@@ -49,7 +49,7 @@ std::vector<T> convolve(std::vector<T> const &signal_1, std::vector<T> const &si
     int l1 = signal_1.size();
     int l2 = signal_2.size();
     int N = l1 + l2 - 1;
-    std::vector<T> convolved_signal(l1+l2-1);
+    std::vector<T> convolved_signal(N);
 
     for (int n=0; n<N; n++)
     {
@@ -76,6 +76,8 @@ std::vector<T> upsample(std::vector<T> signal, float N)
     {
         upsampled_signal[N*i] = signal[i];
     }
+    // Get rid of the trailing zeros
+    upsampled_signal.erase(upsampled_signal.end()-N+1, upsampled_signal.end());
 
     return upsampled_signal;
 }

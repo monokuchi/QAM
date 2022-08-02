@@ -116,8 +116,8 @@ std::vector<float> modulateQAM(std::vector<int> &data, std::vector<float> &I_car
     I_signal = interpolate(upsample(I_signal, upsample_rate));
     Q_signal = interpolate(upsample(Q_signal, upsample_rate));
 
-    printOutVector(I_signal, "In-Phase Signal");
-    printOutVector(Q_signal, "Quadrature Signal");
+    printOutVector(I_signal, "Interpolated In-Phase Signal");
+    printOutVector(Q_signal, "Interpolated Quadrature Signal");
 
     // Mix our signals with our carrier signals
     std::cout<<"I_signal Size: "<<I_signal.size()<<std::endl;
