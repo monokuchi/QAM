@@ -3,6 +3,7 @@
 #define QAM_H
 
 #include <vector>
+#include <algorithm>
 #include <random>
 #include "sigproc.h"
 
@@ -93,7 +94,7 @@ std::vector<float> modulateQAM(std::vector<int> &data, std::vector<float> &I_car
 {
     std::cout<<"Modulating Signal..."<<std::endl;
 
-    std::vector<float> output_signal, I_signal, Q_signal;
+    std::vector<float> I_signal, Q_signal;
 
     // Split the input bit vector in half and route it into the I and Q branches
     for (int i=0; i<(data.size() / 2); i++)
@@ -119,12 +120,16 @@ std::vector<float> modulateQAM(std::vector<int> &data, std::vector<float> &I_car
     printOutVector(Q_signal, "Quadrature Signal");
 
     // Mix our signals with our carrier signals
-    // printOutVector(I_carrier, "In-Phase Carrier");
-    // printOutVector(Q_carrier, "Quadrature Carrier");
     std::cout<<"I_signal Size: "<<I_signal.size()<<std::endl;
     std::cout<<"I_carrier Size: "<<I_carrier.size()<<std::endl;
+
+    std::transform(I_signal.begin(), I_signal.end(), I_carrier.begin(), I_signal.begin(), std::multiplies<float>());
+    std::transform(Q_signal.begin(), Q_signal.end(), Q_carrier.begin(), Q_signal.begin(), std::multiplies<float>());
     
-    
+    // Add our modulated I and Q signals to get the result output signal
+    std::vector<float> output_signal(I_signal.size());
+    std::transform(I_signal.begin(), I_signal.end(), Q_signal.begin(), output_signal.begin(), std::plus<float>());
+
     return output_signal;
 
 }
