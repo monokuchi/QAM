@@ -1,37 +1,39 @@
 
 #include <iostream>
-#include "qam.h"
+#include <qamTX.h>
+#include <complex>
+
+
+
+// Gets the message string from the user
+std::string getMessage()
+{
+    std::string message;
+    std::cout << "Enter your message: ";
+    std::getline(std::cin, message);
+    return message;
+}
+
 
 int main()
 {
-    // Set the Signal class variables
-    std::string name = "Input Signal"; 
-    float freq = 100; // Frequency of carrier signal in Hz
-    float sample_rate = 1000; // Sample rate in Hz
-    float symbol_rate = 2; // Symbol rate in symbols/sec
-    int num_bits = 16; // Make sure this is divisible by 2
+    // Set the TX class variables
+    float b = 1;
+    int T = 2;
+    int oversample_rate = 4;
     int mod_order = 4; // mod_order of 4 means we are implementing QPSK for this particular example
 
-    // Make the Signal object
-    Signal signal(name, num_bits, mod_order);
+    // Say 100 bits at 2 bits/sym at 10x oversample rate
+    // = 50 symbols out, oversampled at 10x => 500 samples out
+    // bits => QAM (I+jQ) => upsample 10x => RRC filter (at 10x)
 
-    // Print the signal's name
-    std::cout<<"Signal Name: "<<signal.getName()<<std::endl;
+    // Make our TX object
+    TX signal_tx(b, T, oversample_rate, mod_order);
 
-    // Generate our bit vector
-    signal.generateBits();
-    std::vector<int> bit_vector = signal.getBitVector();
-    // Print out all the bits that make up the signal
-    printOutVector(bit_vector, "Bit Vector");
+    // Get our message from user that we want to send over
+    std::string message = getMessage();
 
-    // Generate our carrier signals
-    std::vector<float> I_carrier_signal = generateSin(freq, 500, sample_rate);
-    std::vector<float> Q_carrier_signal = generateCos(freq, 500, sample_rate);
-
-    // Modulate the signal using QAM
-    std::vector<float> output = modulateQAM(bit_vector, I_carrier_signal, Q_carrier_signal);
-    printOutVector(output, "Output Signal: ");
-    
+    // Generate our complex IQ signal to give to our SDR
+    signal_tx.toSamples(message);
     
 }
-

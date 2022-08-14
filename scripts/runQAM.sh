@@ -1,10 +1,9 @@
 
 #!/bin/bash
 
-################## Script to compile and run qam.cpp ##################
+################## Script to compile and run QAM ##################
 
 pushd ${PWD} > /dev/null
-cd ~/gitrepos/QAM/src
-g++ -o qam qam.cpp
+cd ~/gitrepos/QAM/build
 ./qam
 popd > /dev/null

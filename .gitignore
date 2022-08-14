@@ -4,3 +4,6 @@
 
 # QAM executable
 src/qam
+
+# Build directory
+build
