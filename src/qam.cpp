@@ -18,8 +18,8 @@ std::string getMessage()
 int main()
 {
     // Set the TX class variables
-    float b = 1;
-    int T = 2;
+    float b = .3;
+    int T = 8;
     int oversample_rate = 4;
     int mod_order = 4; // mod_order of 4 means we are implementing QPSK for this particular example
 

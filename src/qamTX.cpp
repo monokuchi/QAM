@@ -116,9 +116,9 @@ std::vector<std::complex<float>> TX::toSamples(std::string str)
         rrc_complex.push_back(std::complex<float> (itr, 0.0));
     }
     samples = interpolate(symbols, rrc_complex, oversample_rate);
-
+    
     printOutVector(samples, "Samples");
-
+    
 
     return samples;
 }
