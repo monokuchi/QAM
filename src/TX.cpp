@@ -29,11 +29,14 @@ int main()
 
     // Make our TX object
     TX signal_tx(b, T, oversample_rate, mod_order);
+    
+    while(true)
+    {
+        // Get our message from user that we want to send over
+        std::string message = getMessage();
 
-    // Get our message from user that we want to send over
-    std::string message = getMessage();
-
-    // Generate our complex IQ signal to give to our SDR
-    signal_tx.toSamples(message);
+        // Generate our complex IQ signal to give to our SDR
+        signal_tx.toSamples(message);
+    }
     
 }

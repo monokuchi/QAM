@@ -1,6 +1,6 @@
 
-#ifndef QAM_H
-#define QAM_H
+#ifndef QAMTX_H
+#define QAMTX_H
 
 #include <vector>
 #include <algorithm>
@@ -28,11 +28,15 @@ class TX
         float beta;
         int num_periods;
         int oversample_rate;
-        std::vector<float> rrc;
+        std::vector<std::complex<float>> rrc;
 
-        int modulation_order; // Modulation order (# of symbols)
+        // Pilot signal
+        std::vector<int8_t> pilot_signal = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
+
+        // Modulation order (# of symbols)
+        int modulation_order;
 
 };
 
 
-#endif // QAM_H
+#endif // QAMTX_H

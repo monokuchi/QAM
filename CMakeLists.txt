@@ -4,8 +4,19 @@ project(QAM)
 
 # add_compile_options(-g -O0)
 
-add_executable(qam src/qam.cpp src/qamTX.cpp src/sigproc.cpp)
+set(COMMON_FILES src/sigproc.cpp src/qamUtil.cpp)
 
-target_include_directories(qam PUBLIC
+#############################################################
+
+add_executable(TX src/TX.cpp src/qamTX.cpp ${COMMON_FILES})
+
+target_include_directories(TX PUBLIC
+                           "${CMAKE_SOURCE_DIR}/src"
+                          )
+
+                          
+add_executable(RX src/RX.cpp src/qamRX.cpp ${COMMON_FILES})
+
+target_include_directories(RX PUBLIC
                            "${CMAKE_SOURCE_DIR}/src"
                           )

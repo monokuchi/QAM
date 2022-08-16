@@ -5,5 +5,5 @@
 
 pushd ${PWD} > /dev/null
 cd ~/gitrepos/QAM/build
-./qam
+./TX
 popd > /dev/null

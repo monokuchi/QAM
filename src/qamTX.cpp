@@ -3,32 +3,8 @@
 #include <complex>
 #include <bitset>
 #include <qamTX.h>
+#include <qamUtil.h>
 
-
-
-template <typename T>
-void printOutVector(const std::vector<T> &vec, std::string Name)
-{
-    std::cout << Name << ": ";
-    for (auto i = vec.begin(); i != vec.end(); ++i)
-    {
-        if (i != vec.begin()) std::cout<<", ";
-        std::cout<<*i;
-    }
-    std::cout<<"\n";
-}
-
-template <>
-void printOutVector(const std::vector<int8_t> &vec, std::string Name)
-{
-    std::cout << Name << ": ";
-    for (auto i = vec.begin(); i != vec.end(); ++i)
-    {
-        if (i != vec.begin()) std::cout<<", ";
-        std::cout<<(int) *i;
-    }
-    std::cout<<"\n";
-}
 
 
 /* ----------TX Member Function's Definitions---------- */
@@ -63,23 +39,7 @@ std::vector<int8_t> convertToBinaryAscii(std::string input_string)
 }
 
 
-std::vector<std::complex<float>> bitMapper(std::vector<int8_t> bits, int mod_order)
-{
-    std::vector<std::complex<float>> symbols;
-    int bits_per_symbol = log2(mod_order);
-    // Hardcoded symbol_map for now, meant for QPSK
-    std::vector<std::complex<float>> symbol_map = {{1, 1}, {-1, 1}, {1, -1}, {-1, -1}};
-    
-    for(size_t i=0; i<bits.size(); i+=bits_per_symbol)
-    {
-        symbols.push_back(symbol_map[(bits[i]*1) + (bits[i+1]*2)]);
-    }
-
-    return symbols;
-}
-
-
-std::vector<int8_t> addMessageHeader(std::vector<int8_t> data_payload)
+std::vector<int8_t> addMessageHeader(const std::vector<int8_t> &pilot, const std::vector<int8_t> &data_payload)
 {
     /*
                 ---------------Message Packet Structure---------------
@@ -87,7 +47,6 @@ std::vector<int8_t> addMessageHeader(std::vector<int8_t> data_payload)
     */
 
     std::vector<int8_t> msg_packet, msg_length;
-    std::vector<int8_t> pilot = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
     std::bitset<8> msg_length_bits = data_payload.size();
     for (int i=0; i<8; i++)
     {
@@ -105,18 +64,12 @@ std::vector<int8_t> addMessageHeader(std::vector<int8_t> data_payload)
 std::vector<std::complex<float>> TX::toSamples(std::string str)
 {
     std::vector<std::complex<float>> samples;
-    std::vector<std::complex<float>> symbols = bitMapper(addMessageHeader(convertToBinaryAscii(str)), modulation_order);
+    std::vector<std::complex<float>> symbols = bitMapper(addMessageHeader(pilot_signal, convertToBinaryAscii(str)), modulation_order);
 
     printOutVector(symbols, "Symbols");
 
-    // Make our rrc filter complex
-    std::vector<std::complex<float>> rrc_complex;
-    for (auto &itr : rrc)
-    {
-        rrc_complex.push_back(std::complex<float> (itr, 0.0));
-    }
-    samples = interpolate(symbols, rrc_complex, oversample_rate);
-    
+    samples = filter(upsample(symbols, oversample_rate), rrc);
+
     printOutVector(samples, "Samples");
     
 

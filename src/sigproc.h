@@ -8,7 +8,7 @@
 
 
 
-std::vector<float> rootRaisedCosine(float B, int T, int OversampleRate);
+std::vector<std::complex<float>> rootRaisedCosine(float B, int T, int OversampleRate);
 
 
 template <typename T>
@@ -52,12 +52,29 @@ std::vector<T> upsample(std::vector<T> signal, float N)
 
 
 template <typename T>
-std::vector<T> interpolate(std::vector<T> signal, std::vector<T> lowpass_filter, int oversample)
+std::vector<T> filter(std::vector<T> signal, std::vector<T> filter_taps)
 {
     // Lowpass filter our upsampled signal
-    std::vector<T> interpolated_signal = convolve(upsample(signal, oversample), lowpass_filter);
+    std::vector<T> interpolated_signal = convolve(signal, filter_taps);
 
     return interpolated_signal;
+}
+
+
+template <typename T>
+std::vector<T> crossCorrelate(const std::vector<T> &signal_1, const std::vector<T> &signal_2)
+{
+    // Cross correlating signal_1 with signal_2 i.e. R(signal_1, signal_2)
+    std::vector<T> result;
+    std::vector<T> reversed_signal_2;
+    reversed_signal_2.reserve(signal_2.size());
+    for (auto itr = signal_2.begin(); itr != signal_2.end(); itr++)
+    {
+        reversed_signal_2.push_back(*itr);
+    }
+    result = convolve(signal_1, reversed_signal_2);
+
+    return result;
 }
 
 

@@ -3,9 +3,9 @@
 
 
 
-std::vector<float> rootRaisedCosine(float B, int T, int OversampleRate)
+std::vector<std::complex<float>> rootRaisedCosine(float B, int T, int OversampleRate)
 {
-    std::vector<float> filter_coeff;
+    std::vector<std::complex<float>> filter_coeff;
 
     int filter_order = T*OversampleRate;
     if (filter_order%2 != 0)
