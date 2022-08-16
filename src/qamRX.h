@@ -23,6 +23,9 @@ class RX
         // Synchronizes the incoming TX signal with regards to time, frequency, and phase
         std::vector<std::complex<float>> sync(std::vector<std::complex<float>> tx_signal);
 
+        // Decodes the complex signal into bits
+        std::vector<int8_t> decode(std::vector<std::complex<float>> complex_signal);
+        
         // Starts the RX processing
         void startRX(std::vector<std::complex<float>> TX_signal);
 

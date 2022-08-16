@@ -36,4 +36,14 @@ void printOutVector(const std::vector<int8_t> &vec, std::string Name)
 std::vector<std::complex<float>> bitMapper(std::vector<int8_t> bits, int mod_order);
 
 
+std::vector<int8_t> symbolMapper(std::vector<std::complex<float>> symbols, int mod_order);
+
+
+template <typename T>
+std::vector<T> nearestNeighbor(std::vector<T> noisy_signal, std::vector<T> reference_signal)
+{
+    
+}
+
+
 #endif // QAMUTIL_H

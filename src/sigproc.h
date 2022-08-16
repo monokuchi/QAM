@@ -36,7 +36,7 @@ std::vector<T> convolve(const std::vector<T> &signal_1, const std::vector<T> &si
 
 
 template <typename T>
-std::vector<T> upsample(std::vector<T> signal, float N)
+std::vector<T> upsample(const std::vector<T> &signal, float N)
 {
     std::vector<std::complex<float>> upsampled_signal(N*signal.size());
     // Zero stuff the signal
@@ -48,6 +48,24 @@ std::vector<T> upsample(std::vector<T> signal, float N)
     upsampled_signal.erase(upsampled_signal.end()-N+1, upsampled_signal.end());
 
     return upsampled_signal;
+}
+
+
+template <typename T>
+std::vector<T> downsample(const std::vector<T> &signal, float N)
+{
+    std::vector<T> downsampled_signal;
+    downsampled_signal.reserve((int) std::floor(signal.size() / N));
+    // Keep every N'th sample
+    for (int i=1; i<signal.size()+1; i++)
+    {
+        if (!(i % (int) N))
+        {
+            downsampled_signal.push_back(signal[i-1]);
+        }
+    }
+    
+    return downsampled_signal;
 }
 
 
@@ -65,8 +83,7 @@ template <typename T>
 std::vector<T> crossCorrelate(const std::vector<T> &signal_1, const std::vector<T> &signal_2)
 {
     // Cross correlating signal_1 with signal_2 i.e. R(signal_1, signal_2)
-    std::vector<T> result;
-    std::vector<T> reversed_signal_2;
+    std::vector<T> result, reversed_signal_2;
     reversed_signal_2.reserve(signal_2.size());
     for (auto itr = signal_2.begin(); itr != signal_2.end(); itr++)
     {
