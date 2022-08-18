@@ -4,6 +4,7 @@
 
 #include <vector>
 #include <complex>
+#include <algorithm>
 
 
 
@@ -82,12 +83,9 @@ template <typename T>
 std::vector<T> crossCorrelate(const std::vector<T> &signal_1, const std::vector<T> &signal_2)
 {
     // Cross correlating signal_1 with signal_2 i.e. R(signal_1, signal_2)
-    std::vector<T> result, reversed_signal_2;
-    reversed_signal_2.reserve(signal_2.size());
-    for (auto itr = signal_2.begin(); itr != signal_2.end(); itr++)
-    {
-        reversed_signal_2.push_back(*itr);
-    }
+    std::vector<T> result;
+    std::vector<T> reversed_signal_2(signal_2);
+    std::reverse(reversed_signal_2.begin(), reversed_signal_2.end());
     result = convolve(signal_1, reversed_signal_2);
 
     return result;

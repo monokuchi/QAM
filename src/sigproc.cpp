@@ -7,7 +7,7 @@ std::vector<std::complex<float>> rootRaisedCosine(float B, int T, int Oversample
 {
     std::vector<std::complex<float>> filter_coeff;
 
-    int filter_order = T*OversampleRate;
+    int filter_order = T * OversampleRate;
     if (filter_order%2 != 0)
     {
         std::__throw_invalid_argument("Filter Order must be even!");
