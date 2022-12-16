@@ -29,8 +29,8 @@ class TX
         int oversample_rate;
         std::vector<std::complex<float>> rrc;
 
-        // Pilot signal
-        std::vector<int8_t> pilot_signal = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
+        // Pilot signal (Barker Code)
+        std::vector<int8_t> pilot_signal = {1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 1, 0};
 
         // Modulation order (# of symbols)
         int modulation_order;

@@ -57,12 +57,9 @@ std::vector<T> downsample(const std::vector<T> &signal, float N)
     std::vector<T> downsampled_signal;
     downsampled_signal.reserve((int) std::floor(signal.size() / N));
     // Keep every N'th sample
-    for (int i=1; i<signal.size()+1; i++)
+    for (int i=0; i<signal.size(); i+=N)
     {
-        if (!(i % (int) N))
-        {
-            downsampled_signal.push_back(signal[i-1]);
-        }
+        downsampled_signal.push_back(signal[i]);
     }
     
     return downsampled_signal;

@@ -19,7 +19,7 @@ TX::TX(float Beta, int T, int Oversample_Rate, int Modulation_Order)
 
 
 // Converts the input string to a bit vector using the ASCII convention
-std::vector<int8_t> convertToBinaryAscii(std::string input_string)
+std::vector<int8_t> convertToBinaryAscii(const std::string &input_string)
 {
     std::vector<int8_t> bit_vector;
     std::bitset<8> letter;

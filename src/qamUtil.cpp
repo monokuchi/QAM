@@ -51,7 +51,8 @@ std::vector<int8_t> symbolMapper(std::vector<std::complex<float>> symbols, int m
         boost::dynamic_bitset<> idx_binary(bits_per_symbol, idx);
         for (int j=0; j<bits_per_symbol; j++)
         {
-            bits.push_back(idx_binary[bits_per_symbol - 1 - j]);
+            // bits.push_back(idx_binary[bits_per_symbol-1-j]);
+            bits.push_back(idx_binary[j]);
         }
     }
 
