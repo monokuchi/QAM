@@ -3,8 +3,8 @@
 #include <string.h>
 #include <complex>
 #include <bitset>
-#include <qamRX.h>
-#include <qamUtil.h>
+#include <rx/qamRX.h>
+#include <tools/qamUtil.h>
 
 
 

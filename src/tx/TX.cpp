@@ -1,7 +1,7 @@
 
 #include <iostream>
-#include <radioTX.h>
-#include <qamTX.h>
+#include <tx/radioTX.h>
+#include <tx/qamTX.h>
 #include <complex>
 
 

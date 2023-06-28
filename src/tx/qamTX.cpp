@@ -2,8 +2,8 @@
 #include <iostream>
 #include <complex>
 #include <bitset>
-#include <qamTX.h>
-#include <qamUtil.h>
+#include <tx/qamTX.h>
+#include <tools/qamUtil.h>
 
 
 
