@@ -5,6 +5,7 @@
 #include <iostream>
 #include <vector>
 #include <complex>
+#include <tx/TX.h>
 
 
 
@@ -12,7 +13,7 @@ class RadioTX
 {
     public:
         // RadioTX constructor
-        RadioTX(float Sample_Rate);
+        RadioTX(RadioTXConfig* radio_tx_config);
         RadioTX() = delete;
 
         // RadioTX destructor

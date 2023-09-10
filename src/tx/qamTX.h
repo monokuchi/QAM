@@ -6,6 +6,7 @@
 #include <algorithm>
 #include <complex>
 #include <tools/sigproc.h>
+#include <tx/TX.h>
 
 
 
@@ -13,7 +14,7 @@ class TX
 {   
     public:
         // TX constructor
-        TX(float Beta, int T, int Oversample_Rate, int Modulation_Order);
+        TX(TXConfig* tx_config);
         TX() = delete;
 
         // TX destructor

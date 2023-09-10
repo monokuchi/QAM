@@ -1,5 +1,6 @@
 
 #include <iostream>
+#include <tx/TX.h>
 #include <tx/radioTX.h>
 #include <tx/qamTX.h>
 #include <complex>
@@ -19,17 +20,14 @@ std::string getMessage()
 int main()
 {
     // Set the RadioTX class variables
-    float sample_rate = 10000;
+    RadioTXConfig radio_tx_config = {10000};
     // Set the TX class variables
-    float b = .3;
-    int T = 8;
-    int oversample_rate = 4;
-    int mod_order = 4; // mod_order of 4 means we are implementing QPSK for this particular example
+    TXConfig tx_config = {.3, 8, 4, 4};
 
     // Make our RadioTX object
-    RadioTX radio_tx(sample_rate);
+    RadioTX radio_tx(&radio_tx_config);
     // Make our TX object
-    TX signal_tx(b, T, oversample_rate, mod_order);
+    TX signal_tx(&tx_config);
     
     while(true)
     {

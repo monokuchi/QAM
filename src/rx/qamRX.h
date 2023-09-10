@@ -6,6 +6,7 @@
 #include <algorithm>
 #include <complex>
 #include <tools/sigproc.h>
+#include <rx/RX.h>
 
 
 
@@ -13,7 +14,7 @@ class RX
 {   
     public:
         // RX constructor
-        RX(float Beta, int T, int Oversample_Rate, int Modulation_Order);
+        RX(RXConfig* rx_config);
         RX() = delete;
 
         // RX destructor

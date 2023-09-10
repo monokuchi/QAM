@@ -8,13 +8,13 @@
 
 
 /* ----------TX Member Function's Definitions---------- */
-TX::TX(float Beta, int T, int Oversample_Rate, int Modulation_Order)
+TX::TX(TXConfig* tx_config)
 {
-    beta = Beta;
-    num_periods = T;
-    oversample_rate = Oversample_Rate;
-    modulation_order = Modulation_Order;
-    rrc = rootRaisedCosine(Beta, T, Oversample_Rate);
+    beta = tx_config->b;
+    num_periods = tx_config->T;
+    oversample_rate = tx_config->oversample_rate;
+    modulation_order = tx_config->mod_order;
+    rrc = rootRaisedCosine(beta, num_periods, oversample_rate);
 }
 
 

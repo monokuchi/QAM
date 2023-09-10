@@ -5,17 +5,18 @@
 #include <bitset>
 #include <rx/qamRX.h>
 #include <tools/qamUtil.h>
+#include <rx/RX.h>
 
 
 
 /* ----------RX Member Function's Definitions---------- */
-RX::RX(float Beta, int T, int Oversample_Rate, int Modulation_Order)
+RX::RX(RXConfig* rx_config)
 {
-    beta = Beta;
-    num_periods = T;
-    oversample_rate = Oversample_Rate;
-    modulation_order = Modulation_Order;
-    rrc = rootRaisedCosine(Beta, T, Oversample_Rate);
+    beta = rx_config->b;
+    num_periods = rx_config->T;
+    oversample_rate = rx_config->oversample_rate;
+    modulation_order = rx_config->mod_order;
+    rrc = rootRaisedCosine(beta, num_periods, oversample_rate);
 }
 
 
@@ -47,7 +48,9 @@ std::vector<std::complex<float>> RX::sync(const std::vector<std::complex<float>>
 {
     std::vector<std::complex<float>> pilot_symbols = bitMapper(pilot_signal, modulation_order);
     std::vector<std::complex<float>> upsampled_pilot_symbols = upsample(pilot_symbols, oversample_rate);
+    // Overall Channel Transfer Function has to be a Raised Cosine Filter
     std::vector<std::complex<float>> filtered_upsampled_pilot_symbols = filter(filter(upsampled_pilot_symbols, rrc), rrc);
+    // Chop off the transients at the beginning and end of the signal
     std::copy(filtered_upsampled_pilot_symbols.begin()+(rrc.size()-1), filtered_upsampled_pilot_symbols.end()-(rrc.size()-1), filtered_upsampled_pilot_symbols.begin());
     filtered_upsampled_pilot_symbols.resize(filtered_upsampled_pilot_symbols.size() - (2*(rrc.size()-1)));
 
@@ -63,7 +66,7 @@ std::vector<std::complex<float>> RX::sync(const std::vector<std::complex<float>>
     int max_index = std::max_element(mag_correlated_signal.begin(), mag_correlated_signal.end()) - mag_correlated_signal.begin();
 
     int start_index = max_index - (filtered_upsampled_pilot_symbols.size() - 1);
-    // This method of trimming off the tx_signal is assuming RX has got the entire block at once (we have to change this later on to frame based processing)
+    // This method of trimming off the tx_signal is assuming RX has got the entire block at once (we have to change this later to frame based processing)
     std::vector<std::complex<float>> synchronized_signal(tx_signal.begin()+start_index, tx_signal.end());
 
     return synchronized_signal;

@@ -5,6 +5,7 @@
 #include <iostream>
 #include <vector>
 #include <complex>
+#include <rx/RX.h>
 
 
 
@@ -12,7 +13,7 @@ class RadioRX
 {
     public:
         // RadioRX constructor
-        RadioRX(float Sample_Rate);
+        RadioRX(RadioRXConfig* radio_rx_config);
         RadioRX() = delete;
 
         // RadioRX destructor

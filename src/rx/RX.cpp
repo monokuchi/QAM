@@ -1,5 +1,6 @@
 
 #include <iostream>
+#include <rx/RX.h>
 #include <rx/radioRX.h>
 #include <rx/qamRX.h>
 #include <complex>
@@ -9,17 +10,14 @@
 int main()
 {
     // Set the RadioRX class variables
-    float sample_rate = 10000;
+    RadioRXConfig radio_rx_config = {10000};
     // Set the RX class variables
-    float b = .3;
-    int T = 8;
-    int oversample_rate = 4;
-    int mod_order = 4; // mod_order of 4 means we are implementing QPSK for this particular example
+    RXConfig rx_config = {.3, 8, 4, 4};
 
     // Make our RadioRX object
-    RadioRX radio_rx(sample_rate);
+    RadioRX radio_rx(&radio_rx_config);
     // Make our RX object
-    RX signal_rx(b, T, oversample_rate, mod_order);
+    RX signal_rx(&rx_config);
 
     while(true)
     {

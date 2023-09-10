@@ -26,7 +26,7 @@ std::vector<std::complex<float>> bitMapper(std::vector<int8_t> bits, int mod_ord
     {
         symbols.push_back(symbol_map[(bits[i]*1) + (bits[i+1]*2)]);
     }
-
+    
     return symbols;
 }
 
