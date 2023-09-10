@@ -100,12 +100,12 @@ void RX::startRX(std::vector<std::complex<float>> TX_signal)
     printOutVector(message_bits, "Decoded Message Bits");
 
     // Extract the data bits from the message bit vector
-    std::vector<int8_t> data_bits(message_bits.begin()+10, message_bits.begin()+26);
-    // Bit 11-27 = 16 bits ---> for message "hi"
+    std::vector<int8_t> data_bits(message_bits.begin()+10, message_bits.begin()+26); // <----- ???? arbitary slicing
+    // Bits 11-27 = 16 bits ---> for message "hi"
     printOutVector(data_bits, "Decoded Text Bits");
 
     // Convert the data bits to string using ASCII
     std::string data_string = convertToStringAscii(data_bits);
 
-    std::cout << "Decoded Data String: " << data_string << std::endl;
+    std::cout << "Decoded Data String: " << data_string << "\n" << std::endl;
 }
