@@ -50,6 +50,7 @@ std::vector<std::complex<float>> RX::sync(const std::vector<std::complex<float>>
     std::vector<std::complex<float>> upsampled_pilot_symbols = upsample(pilot_symbols, oversample_rate);
     // Overall Channel Transfer Function has to be a Raised Cosine Filter
     std::vector<std::complex<float>> filtered_upsampled_pilot_symbols = filter(filter(upsampled_pilot_symbols, rrc), rrc);
+    
     // Chop off the transients at the beginning and end of the signal
     std::copy(filtered_upsampled_pilot_symbols.begin()+(rrc.size()-1), filtered_upsampled_pilot_symbols.end()-(rrc.size()-1), filtered_upsampled_pilot_symbols.begin());
     filtered_upsampled_pilot_symbols.resize(filtered_upsampled_pilot_symbols.size() - (2*(rrc.size()-1)));
